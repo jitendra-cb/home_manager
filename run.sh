@@ -115,5 +115,5 @@ else
   warn "-> Home manage already installed!"
 fi
 
-home-manager switch --flake $SCRIPT_PATH
+home-manager switch --flake $SCRIPT_PATH --show-trace
 success "-> Home Manager Set Up!"
