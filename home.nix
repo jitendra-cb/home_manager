@@ -1,7 +1,8 @@
 { config, pkgs, lib, ... }:
 
 {
-  imports = [ ./config.nix ] ++ (lib.filesystem.listFilesRecursive ./files)
+  imports = [ ./config.nix ] 
+    ++ [ ./files.nix ]
     ++ (lib.filesystem.listFilesRecursive ./programs)
     ++ (lib.filesystem.listFilesRecursive ./services);
 
@@ -28,16 +29,18 @@
       # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
 
       asciiquarium
-      # android-studio
-      bottom
+      awscli2
+      bottom # Command: btm
       delta
       dive # docker image size debugging
       docker
       docker-compose
       duf
       fx
+      fzf
       gh
       glow
+      grpc
       gum
       helix
       iterm2
@@ -65,13 +68,13 @@
         xdg-open "$file"
       '')
       slack
-      spotify
       tig
       tldr
       tree
       unzip
       # vlc
-      vscode
+      # vscode
+      yarn
       zip
 
     ];
@@ -92,4 +95,5 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
 }

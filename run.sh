@@ -1,54 +1,12 @@
 #!/usr/bin/env bash
 
+
+ABS_SCRIPT_DIR="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+
+source $ABS_SCRIPT_DIR/dotfiles/.bash_logger.sh
 set -e
 
-BOLD_BLUE='\033[0;1;34m'
-BOLD_GREEN='\033[0;1;32m'
-BOLD_RED='\033[0;1;31m'
-BOLD_YELLOW='\033[0;1;33m'
-
-RESET='\033[0m'
-DEST="$HOME/.config/nixpkgs"
-
-err() { echo -e "${BOLD_RED}$1${RESET}" ; }
-
-warn() { echo -e "${BOLD_YELLOW}$1${RESET}" ; }
-
-info() { echo -e "${BOLD_BLUE}$1${RESET}" ; }
-
-success() { echo -e "${BOLD_GREEN}$1${RESET}" ; }
-
-# -------------------------------------------------------------------------------
-#  Script Execution 
-# -------------------------------------------------------------------------------
-
-update_submodules() {
-    info "[+] Updating submodules"
-    git submodule update --init --recursive --remote
-    success "-> Done updating submodules!"
-}
-
-link_config() {
-    info "[+] Linking config"
-
-    if [ -e "$DEST" ]; then
-        if [ -L "$DEST" ]; then
-            warn "Configuration already linked: nothing to be done."
-        else
-            err "Existing configuration found. Please move it away and run this script again."
-        fi
-
-        return
-    fi
-
-    ln -svr . "$DEST"
-    success "-> Configuration successfully linked!"
-}
-
-set_perm() {
-    chmod "$2" "$1" && success "--> Set permission of $1 to $2"
-}
-
+####
 get_doc() {
     info "-> Fetching $1"
     op get document "$1" > "$2"
@@ -91,17 +49,15 @@ get_creds() {
     get_gpg
 }
 
-# -------------------------------------------------------------------------------
-#  Script Execution 
-# -------------------------------------------------------------------------------
-
-# link_config
 # get_creds
-# update_submodules
-
-SCRIPT_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 info "[+] Setting up Home Manager"
+if !(nix --version); then 
+  sh <(curl -L https://nixos.org/nix/install) --daemon
+else
+  warn "--> Nix already installed"
+fi
+
 if !(nix-channel --list | grep home-manager &> /dev/null); then 
   nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
   nix-channel --update
@@ -115,5 +71,5 @@ else
   warn "-> Home manage already installed!"
 fi
 
-home-manager switch --flake $SCRIPT_PATH --show-trace
+# home-manager switch --flake $ABS_SCRIPT_DIR --show-trace -b bkp
 success "-> Home Manager Set Up!"
