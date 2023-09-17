@@ -58,6 +58,13 @@ else
   warn "--> Nix already installed"
 fi
 
+if ! [ -f ~/.config/nix/nix.conf ]; then
+  mkdir -p ~/.config/nix/
+  cp $ABS_SCRIPT_DIR/dotfiles/nix.conf ~/.config/nix/nix.conf
+else
+  warn "--> Nix config already present" 
+fi
+
 if !(nix-channel --list | grep home-manager &> /dev/null); then 
   nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
   nix-channel --update
@@ -71,5 +78,5 @@ else
   warn "-> Home manage already installed!"
 fi
 
-# home-manager switch --flake $ABS_SCRIPT_DIR --show-trace -b bkp
+home-manager switch --flake $ABS_SCRIPT_DIR --show-trace -b bkp
 success "-> Home Manager Set Up!"

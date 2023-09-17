@@ -4,7 +4,8 @@
   imports = [ ./config.nix ] 
     ++ [ ./files.nix ]
     ++ (lib.filesystem.listFilesRecursive ./programs)
-    ++ (lib.filesystem.listFilesRecursive ./services);
+    ++ (lib.filesystem.listFilesRecursive ./services)
+    ++ [ ./packages.nix ];
 
   home = {
     username = "jitu";
@@ -53,20 +54,6 @@
       pipenv
       python3
       raycast
-      ripgrep-all # Also add the rga-fzf method
-      (writeShellScriptBin "rga-fzf" ''
-        RG_PREFIX="rga --files-with-matches"
-        local file
-        file="$(
-          FZF_DEFAULT_COMMAND="$RG_PREFIX '$1'" \
-            fzf --sort --preview="[[ ! -z {} ]] && rga --pretty --context 5 {q} {}" \
-              --phony -q "$1" \
-              --bind "change:reload:$RG_PREFIX {q}" \
-              --preview-window="70%:wrap"
-        )" &&
-        echo "opening $file" &&
-        xdg-open "$file"
-      '')
       slack
       tig
       tldr
