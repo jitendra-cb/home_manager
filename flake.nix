@@ -12,10 +12,12 @@
 
   outputs = { nixpkgs, home-manager, ... }:
     let
+      username = "mediaserver";
       system = "x86_64-linux";
+      homeDirectory = "/home/${username}";
       pkgs = nixpkgs.legacyPackages.${system};
     in {
-      homeConfigurations."jitu" = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 
         # Specify your home configuration modules here, for example,
@@ -24,6 +26,10 @@
 
         # Optionally use extraSpecialArgs
         # to pass through arguments to home.nix
+	extraSpecialArgs = {
+          username = username;
+          homeDirectory = homeDirectory;
+        };
       };
     };
 }

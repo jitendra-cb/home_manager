@@ -27,5 +27,5 @@
     tree
     unzip
     zip
-  ]
+  ];
 }

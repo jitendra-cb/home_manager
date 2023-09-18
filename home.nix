@@ -1,15 +1,18 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, specialArgs, ... }:
 
+let 
+  inherit (specialArgs) username homeDirectory;
+in
 {
   imports = [ ./config.nix ] 
     ++ [ ./files.nix ]
-    ++ (lib.filesystem.listFilesRecursive ./programs)
-    ++ (lib.filesystem.listFilesRecursive ./services)
-    ++ [ ./packages.nix ];
+    ++ (lib.filesystem.listFilesRecursive ./packages)
+    ++ (lib.filesystem.listFilesRecursive ./programs)  
+    ++ (lib.filesystem.listFilesRecursive ./services);
 
   home = {
-    username = "jitu";
-    homeDirectory = "/Users/jitu";
+    username = username;
+    homeDirectory = homeDirectory;
 
     # This value determines the Home Manager release that your configuration is
     # compatible with. This helps avoid breakage when a new Home Manager release
@@ -44,7 +47,7 @@
       grpc
       gum
       helix
-      iterm2
+#      iterm2
       less
       mosh
       ncdu
@@ -53,8 +56,8 @@
       ookla-speedtest
       pipenv
       python3
-      raycast
-      slack
+#      raycast
+#      slack
       tig
       tldr
       tree
@@ -63,7 +66,6 @@
       # vscode
       yarn
       zip
-
     ];
 
     # You can also manage environment variables but you will have to manually
