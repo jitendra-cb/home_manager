@@ -17,6 +17,6 @@ logSuccess() { echo -e "${BOLD_GREEN}$1${RESET}" ; }
 
 logVerbose () {
     if [[ $_V -eq 1 ]]; then
-        echo "${BOLD_BLUE}$1${RESET}"
+        echo -e "${BOLD_BLUE}$1${RESET}"
     fi
 }
