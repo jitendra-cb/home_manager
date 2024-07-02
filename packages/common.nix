@@ -1,8 +1,15 @@
 { config, pkgs, lib, ... }:
 
 {
-  home.packages = with pkgs;[
+  home.packages = with pkgs; [
+    (writeShellScriptBin "hello" ''
+        echo "Hello, ${config.home.username}!"
+    '')
+
+    
     awscli2
+    bottom # Command: btm
+    delta
     duf
     fx
     fzf
@@ -10,7 +17,7 @@
     nixpkgs-fmt
     ncdu
     neofetch
-    ripgrep-all
+    ripgrep-all # Also add the rga-fzf method
     (writeShellScriptBin "rga-fzf" ''
       RG_PREFIX="rga --files-with-matches"
       local file
@@ -25,7 +32,7 @@
       xdg-open "$file"
     '')
     tree
-    unzip
-    zip
+    # unzip
+    # zip
   ];
 }

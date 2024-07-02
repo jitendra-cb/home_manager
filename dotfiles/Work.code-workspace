@@ -1,0 +1,36 @@
+{
+  "folders": [
+    {
+      "path": "~/Work"
+    }
+  ],
+  "settings": {
+    "editor.guides.bracketPairs": "active",
+    "editor.tabSize": 2,
+    "files.autoSave": "onFocusChange",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      // "source.fixAll": true,
+      "source.fixAll.eslint": true,
+      "source.organizeImports": true,
+      "source.sortMembers": true
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "esbenp.prettier-vscode",
+      "vscode-icons-team.vscode-icons",
+      "gruntfuggly.todo-tree",
+      "ms-vscode-remote.remote-ssh",
+      "pnp.polacode",
+      "ms-azuretools.vscode-docker",
+      "yzhang.markdown-all-in-one",
+      "humao.rest-client",
+      "tabnine.tabnine-vscode",
+      "bbenoist.nix",
+      "jnoortheen.nix-ide",
+      "mads-hartmann.bash-ide-vscode",
+      "foxundermoon.shell-format"
+    ]
+  }
+}

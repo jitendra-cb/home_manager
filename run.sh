@@ -1,82 +1,77 @@
 #!/usr/bin/env bash
 
+_V=0
+while getopts "v" OPTION
+do
+  case $OPTION in
+    v) _V=1
+    ;;
+  esac
+done
 
 ABS_SCRIPT_DIR="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 source $ABS_SCRIPT_DIR/dotfiles/.bash_logger.sh
+logVerboseInfo "Sourced: $ABS_SCRIPT_DIR/dotfiles/.bash_logger.sh"
 set -e
 
-####
-get_doc() {
-    info "-> Fetching $1"
-    op get document "$1" > "$2"
-    set_perm "$2" "$3"
+get_keys() {
+  logInfo "[+] Setting up Keys"
+  
+  mkdir -p "$HOME/.ssh" && logVerboseInfo "--> Ensured the .ssh folder is present"
+  chmod 700 "$HOME/.ssh" && logVerboseInfo '----> Set permissions for the .ssh folder'
+  # TODO: GET SSH Public Key && logVerboseInfo '--> Fetched .ssh/id_rsa.pub'
+  chmod 644 "$HOME/.ssh/id_rsa.pub" && logVerboseInfo '----> Set permissions for .ssh/id_rsa.pub'
+  # TODO: GET SSH Private Key && logVerboseInfo '--> Fetched .ssh/id_rsa'
+  chmod 600 "$HOME/.ssh/id_rsa" && logVerboseInfo '----> Set permissions for .ssh/id_rsa'
+  
+  mkdir -p "$HOME/.gnupg" && logVerboseInfo "--> Ensured .gnupg folder is present"
+  chmod 700 "$HOME/.gnupg" && logVerboseInfo '----> Set permissions for the .gnupg folder'
+  # TODO: GET SSH Private Key && logVerboseInfo '--> Imported GPG keys'
+  
+  logSuccess "-> Keys Set Up!"
 }
 
-get_ssh() {
-    mkdir -p "$HOME/.ssh" && info "-> Ensuring .ssh folder is present"
-    chmod 700 "$HOME/.ssh" && success '--> Setting permissions for the .ssh folder'
+get_keys
 
-    get_doc 'SSH Public Key' "$HOME/.ssh/id_rsa.pub" 644
-    get_doc 'SSH Private Key' "$HOME/.ssh/id_rsa" 600
-
-    mkdir -p "$HOME/.gnupg" && info "-> Ensuring .gnupg folder is present"
-    chmod 700 "$HOME/.gnupg" && success '--> Setting permissions for the .gnupg folder'
+setup_home_manager() {
+  logInfo "[+] Setting up Home Manager"
+  
+  # TODO: store version in variable and only verbose log it
+  if !(nix --version); then
+    logVerboseInfo "--> Installing Nix"
+    sh <(curl -L https://nixos.org/nix/install) --daemon
+  else
+    logVerboseWarning "--> Nix already installed!"
+  fi
+  
+  
+  if ! [ -f ~/.config/nix/nix.conf ]; then
+    mkdir -p ~/.config/nix/ && logVerboseInfo "--> Ensured the .config/nix/ folder is present"
+    cp $ABS_SCRIPT_DIR/dotfiles/nix.conf ~/.config/nix/nix.conf && logVerboseInfo '--> Added nix.conf'
+  else
+    logVerboseWarning "--> Nix config already present!"
+  fi
+  
+  
+  if !(nix-channel --list | grep home-manager &> /dev/null); then
+    nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+    nix-channel --update && logVerboseInfo "--> Added Home manager nix-channel"
+  else
+    logVerboseWarning "--> Home manager nix-channel already added!"
+  fi
+  
+  # TODO: store version in variable and only verbose log it
+  if !(home-manager --version); then
+    logVerboseInfo "--> Installing Home Manager"
+    nix-shell '<home-manager>' -A install
+  else
+    logVerboseWarning "--> Home manage already installed!"
+  fi
+  
+  logVerboseInfo "--> Switching to Home Manager"
+  home-manager switch --flake $ABS_SCRIPT_DIR --show-trace -b bkp
+  logSuccess "-> Home Manager Set Up!"
 }
 
-get_gpg() {
-    mkdir -p "$HOME/.gnupg" && info "-> Ensuring .gnupg folder is present"
-    chmod 700 "$HOME/.gnupg" && success '--> Setting permissions for the .gnupg folder'
-
-    info "-> Importing private GPG key"
-    op get document 'GPG Private Key' | gpg --import -q && success '--> Successfully imported GPG key'
-}
-
-get_creds() {
-    local domain
-    local email
-    local secret
-
-    read -p 'Enter your 1password domain: ' domain
-    read -p 'Enter your 1password email: ' email
-    read -p 'Enter your 1password secret key: ' secret
-
-    info "[+] Fetching secrets from 1password"
-
-    eval "$(op signin ${domain} ${email} ${secret})"
-
-    get_ssh
-    get_gpg
-}
-
-# get_creds
-
-info "[+] Setting up Home Manager"
-if !(nix --version); then 
-  sh <(curl -L https://nixos.org/nix/install) --daemon
-else
-  warn "--> Nix already installed"
-fi
-
-if ! [ -f ~/.config/nix/nix.conf ]; then
-  mkdir -p ~/.config/nix/
-  cp $ABS_SCRIPT_DIR/dotfiles/nix.conf ~/.config/nix/nix.conf
-else
-  warn "--> Nix config already present" 
-fi
-
-if !(nix-channel --list | grep home-manager &> /dev/null); then 
-  nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-  nix-channel --update
-else 
-  warn "-> Home manage channel already exists!"
-fi
-
-if !(home-manager --version &> /dev/null); then
-  nix-shell '<home-manager>' -A install
-else
-  warn "-> Home manage already installed!"
-fi
-
-home-manager switch --flake $ABS_SCRIPT_DIR --show-trace -b bkp
-success "-> Home Manager Set Up!"
+setup_home_manager

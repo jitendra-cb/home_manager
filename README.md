@@ -2,31 +2,36 @@
 
 ## Installation
 
-1. Make sure you have a working Nix installation from [the official site](https://nixos.org/download.html#download-nix). Once installed, ensure that your user is able to build and install Nix packages without having to switch to the root user. For example, you should be able to successfully run a command like 
+1. Execute the following command (`-v` flag is optional for verbose logging). Upon completion, Home Manager would automatically activate your user environment.
+
 ```
-nix-instantiate '<nixpkgs>' -A hello
+./run.sh -v
 ```
 
----
-2. With nix installed and configured, execute the `./run.sh` bash script. Upon completion, Home Manager should be available and activate your user environment.
+2. A successful Nix installation should be able to run the following command without any error
 
----
-3. If you do not plan on having Home Manager manage your shell configuration then you must source the
+```
+nix-shell -p nix-info --run "nix-info -m"
+```
+
+3. If you do not plan on having Home Manager manage your shell configuration then you must source the following file in your shell configuration.
+
 ```
 $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
 ```
-file in your shell configuration. Alternatively source
+
+Alternatively source the following when managing home configuration together with system configuration.
+
 ```
 /etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh
 ```
-when managing home configuration together with system configuration.
 
-This file can be sourced directly by POSIX.2-like shells such as Bash or Z shell. Fish users can use utilities such as foreign-env or babelfish.
+This file can be sourced directly by POSIX.2-like shells such as Bash or Z shell.
 
-For example, if you use Bash then add
+For example, if you use Bash then add the following to your ~/.profile file.
+
 ```
 . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
 ```
-to your ~/.profile file.
 
 If instead of using channels you want to run Home Manager from a Git checkout of the repository then you can use the programs.home-manager.path option to specify the absolute path to the repository.

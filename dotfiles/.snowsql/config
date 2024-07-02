@@ -1,0 +1,4 @@
+[connections]
+accountname = coinbase.us-east-1.privatelink
+username = jitendra.sachwani@coinbase.com
+authenticator = externalbrowser
