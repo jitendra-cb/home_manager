@@ -60,7 +60,7 @@ setup_home_manager() {
     logVerboseWarning "--> Home manager nix-channel already added!"
   fi
   
-  if !(home-manager --version &> /dev/null); then
+  if !(home-manager --version); then
     logVerboseInfo "--> Installing Home Manager"
     nix-shell '<home-manager>' -A install
   else
