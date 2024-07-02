@@ -8,7 +8,8 @@ in
     ++ [ ./dotfiles.nix ]
     # ++ (lib.filesystem.listFilesRecursive ./packages)
     # ++ (lib.filesystem.listFilesRecursive ./programs)  
-    # ++ (lib.filesystem.listFilesRecursive ./services);
+    # ++ (lib.filesystem.listFilesRecursive ./services)
+    ;
 
   home = {
     username = username;
