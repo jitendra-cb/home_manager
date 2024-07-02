@@ -6,7 +6,7 @@
     shellAliases = { 
     	tabs = "2"; 
     };
-    histSize = 10000;
+    # histSize = 10000;
     hitsFile = "${config.xdg.dataHome}/zsh/history";
     
     plugins = [
