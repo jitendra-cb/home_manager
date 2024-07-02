@@ -1,4 +1,2 @@
-# Ensure Coinbase gems take priority over RubyGems.org gems.
-# Prevents attacks where someone publishes a gem shadowing our internal gem.
 :sources:
 - https://rubygems.org
