@@ -37,6 +37,7 @@ get_keys
 setup_home_manager() {
   logInfo "[+] Setting up Home Manager"
   
+  # TODO: store version in variable and only verbose log it
   if !(nix --version); then
     logVerboseInfo "--> Installing Nix"
     sh <(curl -L https://nixos.org/nix/install) --daemon
@@ -60,6 +61,7 @@ setup_home_manager() {
     logVerboseWarning "--> Home manager nix-channel already added!"
   fi
   
+  # TODO: store version in variable and only verbose log it
   if !(home-manager --version); then
     logVerboseInfo "--> Installing Home Manager"
     nix-shell '<home-manager>' -A install

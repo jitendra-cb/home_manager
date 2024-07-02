@@ -4,11 +4,11 @@ let
   inherit (specialArgs) username homeDirectory;
 in
 {
-  imports = [ ./config.nix ] 
+  imports = [ ./config.nix ] # nixpkgs config
     ++ [ ./dotfiles.nix ]
-    ++ (lib.filesystem.listFilesRecursive ./packages)
-    ++ (lib.filesystem.listFilesRecursive ./programs)  
-    ++ (lib.filesystem.listFilesRecursive ./services);
+    # ++ (lib.filesystem.listFilesRecursive ./packages)
+    # ++ (lib.filesystem.listFilesRecursive ./programs)  
+    # ++ (lib.filesystem.listFilesRecursive ./services);
 
   home = {
     username = username;
