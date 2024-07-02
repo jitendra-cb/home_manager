@@ -15,25 +15,25 @@ source $ABS_SCRIPT_DIR/dotfiles/.bash_logger.sh
 logVerbose "Sourced: $ABS_SCRIPT_DIR/dotfiles/.bash_logger.sh"
 set -e
 
-####
-get_doc() {
-  logInfo "-> Fetching $1"
-  op get document "$1" > "$2"
-  set_perm "$2" "$3"
-}
-
 get_keys() {
-  mkdir -p "$HOME/.ssh" && logInfo "-> Ensuring .ssh folder is present"
-  chmod 700 "$HOME/.ssh" && logSuccess '--> Setting permissions for the .ssh folder'
-  get_doc 'SSH Public Key' "$HOME/.ssh/id_rsa.pub" 644 && logSuccess '--> Setting permissions for the .ssh folder'
-  get_doc 'SSH Private Key' "$HOME/.ssh/id_rsa" 600 && logSuccess '--> Setting permissions for the .ssh folder'
+  logInfo "[+] Setting up Keys"
   
-  # mkdir -p "$HOME/.gnupg" && logInfo "-> Ensuring .gnupg folder is present"
-  # chmod 700 "$HOME/.gnupg" && logSuccess '--> Setting permissions for the .gnupg folder'
-  # op get document 'GPG Private Key' | gpg --import -q && logSuccess '--> logSuccessfully imported GPG key'
+  mkdir -p "$HOME/.ssh" && logVerbose "-> Ensured the .ssh folder is present"
+  chmod 700 "$HOME/.ssh" && logVerbose '--> Set permissions for the .ssh folder'
+  # TODO: GET SSH Public Key && logVerbose '--> Fetched .ssh/id_rsa.pub'
+  chmod 644 "$HOME/.ssh/id_rsa.pub" && logVerbose '--> Set permissions for .ssh/id_rsa.pub'
+  # TODO: GET SSH Private Key && logVerbose '--> Fetched .ssh/id_rsa'
+  chmod 600 "$HOME/.ssh/id_rsa" && logVerbose '--> Set permissions for .ssh/id_rsa'
+  
+  mkdir -p "$HOME/.gnupg" && logVerbose "-> Ensured .gnupg folder is present"
+  chmod 700 "$HOME/.gnupg" && logVerbose '--> Set permissions for the .gnupg folder'
+  # TODO: GET SSH Private Key && logVerbose '--> Imported GPG keys'
+  
+  logSuccess "-> Keys Set Up!"
 }
 
-# get_keys
+get_keys
+
 
 # logInfo "[+] Setting up Home Manager"
 # if !(nix --version); then
