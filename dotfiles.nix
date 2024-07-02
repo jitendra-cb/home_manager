@@ -2,15 +2,20 @@
 
 {
   home.file = {
+    
+    # Common Dotfiles  
+    ".aliases".source = ./common/dotfiles/.aliases;
+    ".bash_logger.sh".source = ./common/dotfiles/.bash_logger.sh;
+    ".gemrc".source = ./common/dotfiles/.gemrc;
+    ".vimrc".source = ./common/dotfiles/.vimrc;
+    # ".zshrc".source = ./common/dotfiles/.zshrc;
 
-    ".aliases".source = ./dotfiles/.aliases;
-    ".bash_logger.sh".source = ./dotfiles/.bash_logger.sh;
-    ".gemrc".source = ./dotfiles/.gemrc;
-    ".vimrc".source = ./dotfiles/.vimrc;
-    ".zshrc".source = ./dotfiles/.zshrc;
+    # Custom Dotfiles
+    ".custom_aliases".source = ./custom/dotfiles/.aliases;
+    ".rectangle_config.json".source = ./custom/dotfiles/.rectangle_config.json;
+    ".snowsql/config".source = ./custom/dotfiles/.snowsql/config;
+    "Work/Work.code-workspace".source = ./custom/dotfiles/Work.code-workspace;
+    ".zshrc".source = ./custom/dotfiles/.zshrc;
 
-    ".rectangle_config.json".source = ./dotfiles/.rectangle_config.json;
-    "Work/Work.code-workspace".source = ./dotfiles/Work.code-workspace;
-    ".snowsql/config".source = ./dotfiles/.snowsql/config;
   };
 }

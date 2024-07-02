@@ -2,8 +2,6 @@
 
 {
   home.packages = with pkgs; [
-    go
-    
     # TODO: Add "go install github.cbhq.net/infra/assume-role/...@latest" to this
 
     # TODO: Add "go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28" to this

@@ -5,10 +5,16 @@ let
 in
 {
   imports = [ ./config.nix ] # nixpkgs config
+    
     ++ [ ./dotfiles.nix ]
-    ++ (lib.filesystem.listFilesRecursive ./packages)
-    ++ (lib.filesystem.listFilesRecursive ./programs)  
-    ++ (lib.filesystem.listFilesRecursive ./services)
+    
+    ++ (lib.filesystem.listFilesRecursive ./common/packages)
+    ++ (lib.filesystem.listFilesRecursive ./common/programs)  
+    ++ (lib.filesystem.listFilesRecursive ./common/services)
+
+    ++ (lib.filesystem.listFilesRecursive ./custom/packages)
+    ++ (lib.filesystem.listFilesRecursive ./custom/programs)
+    ++ (lib.filesystem.listFilesRecursive ./custom/services)
     ;
 
   home = {
@@ -38,5 +44,4 @@ in
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-
 }
