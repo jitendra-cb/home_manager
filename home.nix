@@ -5,7 +5,7 @@ let
 in
 {
   imports = [ ./config.nix ] # nixpkgs config
-    ++ [ ./dotfiles.nix ]
+    ++ [ ./dotfiles ]
     # ++ (lib.filesystem.listFilesRecursive ./packages)
     # ++ (lib.filesystem.listFilesRecursive ./programs)  
     # ++ (lib.filesystem.listFilesRecursive ./services)
