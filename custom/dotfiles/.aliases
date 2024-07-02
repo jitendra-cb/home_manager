@@ -1,0 +1,2 @@
+alias devsole='coinsole connect engineering/coinbase -e development -s web'
+alias stagsole='coinsole connect engineering/coinbase -e development -s web -c staging'
