@@ -2,8 +2,9 @@
 
 BOLD_BLUE='\033[0;1;34m'
 BOLD_GREEN='\033[0;1;32m'
-BOLD_RED='\033[0;1;31m'
 BOLD_YELLOW='\033[0;1;33m'
+BOLD_RED='\033[0;1;31m'
+BOLD_PURPLE='\033[0;1;35m'
 
 RESET='\033[0m'
 
@@ -17,6 +18,6 @@ logSuccess() { echo -e "${BOLD_GREEN}$1${RESET}" ; }
 
 logVerbose () {
     if [[ $_V -eq 1 ]]; then
-        echo -e "${BOLD_BLUE}$1${RESET}"
+        echo -e "${BOLD_PURPLE}$1${RESET}"
     fi
 }
