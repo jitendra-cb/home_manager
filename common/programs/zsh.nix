@@ -2,6 +2,6 @@
 
 {
   programs.zsh = {
-    enable = false;
+    enable = true;
   };
 }

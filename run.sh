@@ -11,8 +11,9 @@ done
 
 ABS_SCRIPT_DIR="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
-source $ABS_SCRIPT_DIR/dotfiles/.bash_logger.sh
-logVerboseInfo "Sourced: $ABS_SCRIPT_DIR/dotfiles/.bash_logger.sh"
+logger_path=$ABS_SCRIPT_DIR/common/dotfiles/.bash_logger.sh
+source $logger_path
+logVerboseInfo "Sourced: $logger_path"
 set -e
 
 get_keys() {
